@@ -1,0 +1,49 @@
+{
+  "file-series-version": "1.0",
+  "files": [
+    {
+      "name": "cantilever_00.vtu",
+      "time": 0
+    },
+    {
+      "name": "cantilever_01.vtu",
+      "time": 0.1
+    },
+    {
+      "name": "cantilever_02.vtu",
+      "time": 0.2
+    },
+    {
+      "name": "cantilever_03.vtu",
+      "time": 0.3
+    },
+    {
+      "name": "cantilever_04.vtu",
+      "time": 0.4
+    },
+    {
+      "name": "cantilever_05.vtu",
+      "time": 0.5
+    },
+    {
+      "name": "cantilever_06.vtu",
+      "time": 0.6
+    },
+    {
+      "name": "cantilever_07.vtu",
+      "time": 0.7
+    },
+    {
+      "name": "cantilever_08.vtu",
+      "time": 0.8
+    },
+    {
+      "name": "cantilever_09.vtu",
+      "time": 0.9
+    },
+    {
+      "name": "cantilever_10.vtu",
+      "time": 1
+    }
+  ]
+}

@@ -1,0 +1,579 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5u4jbp6"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>All the packages | FdwEngine</title><link rel="canonical" href="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/packages/"/><link rel="alternate" hreflang="en" href="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/packages/"/><link rel="alternate" hreflang="fr" href="https://benjamin-zamour.github.io/fdw-engine-docs/fr/ecosystem/packages/"/><link rel="alternate" hreflang="x-default" href="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/packages/"/><link rel="sitemap" href="/fdw-engine-docs/sitemap-index.xml"/><link rel="shortcut icon" href="/fdw-engine-docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.5"/><meta name="generator" content="Starlight v0.42.8"/><meta property="og:title" content="All the packages"/><meta property="og:type" content="article"/><meta property="og:url" content="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/packages/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Every package of the workspace, by product. The page of each one gives its role, its dependencies, its tests and its API reference."/><meta property="og:site_name" content="FdwEngine"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Every package of the workspace, by product. The page of each one gives its role, its dependencies, its tests and its API reference."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/fdw-engine-docs/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/fdw-engine-docs/_astro/common.lkEZKOCI.css"><style>@layer starlight.components{svg:where(.astro-v6wmj37q){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em;overflow:visible}}
+</style><script type="module" src="/fdw-engine-docs/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5u4jbp6"><a class="sl-skip-link astro-ritrvcva" href="#_top">Skip to content</a><div class="page sl-flex astro-hm3sdjlz"><header class="header astro-hm3sdjlz"><div class="header astro-srohzzyx"><div class="title-wrapper sl-flex astro-srohzzyx"><a href="/fdw-engine-docs/" class="site-title sl-flex astro-mhq4qcru"><span class="astro-mhq4qcru" translate="no">FdwEngine</span></a></div><div class="sl-flex print:hidden astro-srohzzyx"><site-search class="astro-srohzzyx astro-iyw4wfrt" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-iyw4wfrt"><svg aria-hidden="true" class="astro-iyw4wfrt astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-iyw4wfrt" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-iyw4wfrt" style="display: none;"><kbd class="astro-iyw4wfrt">Ctrl</kbd><kbd class="astro-iyw4wfrt">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-iyw4wfrt"><div class="dialog-frame sl-flex astro-iyw4wfrt"><button data-close-modal class="sl-flex md:sl-hidden astro-iyw4wfrt">Cancel</button><div class="search-container astro-iyw4wfrt"><div id="starlight__search" class="astro-iyw4wfrt"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/fdw-engine-docs/_astro/Search.astro_astro_type_script_index_0_lang.mZd-MMIx.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-srohzzyx"><div class="sl-flex social-icons astro-srohzzyx"><a href="https://github.com/benjamin-fukdawurld/fdw-engine" rel="me" class="sl-flex astro-mc4evuja"><span class="sr-only astro-mc4evuja">GitHub</span><svg aria-hidden="true" class="astro-mc4evuja astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="dark" class="astro-u3b3comn">Dark</option><option value="light" class="astro-u3b3comn">Light</option><option value="auto" selected class="astro-u3b3comn">Auto</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Select language</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="/fdw-engine-docs/ecosystem/packages/" class="astro-u3b3comn">English</option><option value="/fdw-engine-docs/fr/ecosystem/packages/" class="astro-u3b3comn">Français</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-hm3sdjlz" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-wgs6zkf7"><svg aria-hidden="true" class="open-menu astro-wgs6zkf7 astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-wgs6zkf7 astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-wgs6zkf7">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-hm3sdjlz"><div class="sidebar-content sl-flex astro-hm3sdjlz"><sl-sidebar-state-persist data-hash="12yfue3" class="astro-fgdjt3ad"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/" class="large astro-yye532oa"><span class="astro-yye532oa">Overview</span></a></li><li class="astro-yye532oa"><details open class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Architecture</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/repository-structure/" class="astro-yye532oa"><span class="astro-yye532oa">Repository structure</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/package-architecture/" class="astro-yye532oa"><span class="astro-yye532oa">Package architecture</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/architecture-guidelines/" class="astro-yye532oa"><span class="astro-yye532oa">Architecture guidelines</span></a></li></ul></details></li><li class="astro-yye532oa"><details open class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Packages</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/" aria-current="page" class="astro-yye532oa"><span class="astro-yye532oa">All the packages</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/graph/" class="astro-yye532oa"><span class="astro-yye532oa">Package graph</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/capabilities/" class="astro-yye532oa"><span class="astro-yye532oa">capabilities</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/demo-scenes/" class="astro-yye532oa"><span class="astro-yye532oa">demo-scenes</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/geometry-kernel/" class="astro-yye532oa"><span class="astro-yye532oa">geometry-kernel</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/geometry-kernel-occt/" class="astro-yye532oa"><span class="astro-yye532oa">geometry-kernel-occt</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot/" class="astro-yye532oa"><span class="astro-yye532oa">pivot</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot-brep/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-brep</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot-fcstd/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-fcstd</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot-results/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-results</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot-step/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-step</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/pivot-vtk/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-vtk</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/packages/view-state/" class="astro-yye532oa"><span class="astro-yye532oa">view-state</span></a></li></ul></details></li><li class="astro-yye532oa"><details open class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Contributing</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/workspace/" class="astro-yye532oa"><span class="astro-yye532oa">Workspace</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/conventions/" class="astro-yye532oa"><span class="astro-yye532oa">Conventions</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/testing/" class="astro-yye532oa"><span class="astro-yye532oa">Testing</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/native-builds/" class="astro-yye532oa"><span class="astro-yye532oa">Native builds</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/documentation/" class="astro-yye532oa"><span class="astro-yye532oa">Documentation</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/ecosystem/design-process/" class="astro-yye532oa"><span class="astro-yye532oa">Design process</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-adll7v4a"><div class="social-icons astro-adll7v4a"><a href="https://github.com/benjamin-fukdawurld/fdw-engine" rel="me" class="sl-flex astro-mc4evuja"><span class="sr-only astro-mc4evuja">GitHub</span><svg aria-hidden="true" class="astro-mc4evuja astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="dark" class="astro-u3b3comn">Dark</option><option value="light" class="astro-u3b3comn">Light</option><option value="auto" selected class="astro-u3b3comn">Auto</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Select language</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="/fdw-engine-docs/ecosystem/packages/" class="astro-u3b3comn">English</option><option value="/fdw-engine-docs/fr/ecosystem/packages/" class="astro-u3b3comn">Français</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-hm3sdjlz"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-wtroqnln"><aside class="right-sidebar-container print:hidden astro-wtroqnln"><div class="right-sidebar astro-wtroqnln"><div class="lg:sl-hidden astro-ovs6fa5w"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-uklug2dz"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-uklug2dz"><details id="starlight__mobile-toc" class="astro-uklug2dz"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-uklug2dz"><span class="toggle sl-flex astro-uklug2dz">On this page<svg aria-hidden="true" class="caret astro-uklug2dz astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-uklug2dz"></span></summary><div class="dropdown astro-uklug2dz"><ul class="isMobile astro-yfuraq3q" style="--depth: 0;"><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#_top" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Overview</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#engine" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Engine</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#editor" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Editor</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#ecosystem" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Ecosystem</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/fdw-engine-docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-ovs6fa5w"><div class="sl-container astro-ovs6fa5w"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-yfuraq3q" style="--depth: 0;"><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#_top" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Overview</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#engine" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Engine</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#editor" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Editor</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#ecosystem" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Ecosystem</span></a></li></ul></nav></starlight-toc><script type="module" src="/fdw-engine-docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-wtroqnln"><main data-pagefind-body class="astro-g5u4jbp6" lang="en" dir="ltr"><div class="content-panel astro-jymlt5ym"><div class="sl-container astro-jymlt5ym"><h1 id="_top" class="astro-7oncsfd4">All the packages</h1></div></div><div class="content-panel astro-jymlt5ym"><div class="sl-container astro-jymlt5ym"><div class="sl-markdown-content"><p>Every package of the workspace, by product. The page of each one gives its role, its dependencies, its tests and its API reference.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="engine">Engine</h2><a class="sl-anchor-link" href="#engine"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Engine”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Role</th>
+<th>Visibility</th>
+<th>Domains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-animation/"><code dir="auto">engine-animation</code></a></td>
+<td>Skeletons, clips, poses, blends and animation graphs, on the CPU.</td>
+<td>Public</td>
+<td>Animation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-assets/"><code dir="auto">engine-assets</code></a></td>
+<td>Images, textures, meshes, materials and models: their CPU data and their realizations on a backend.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-audio/"><code dir="auto">engine-audio</code></a></td>
+<td>The abstract audio API: engines, buses, clips, voices, a listener, sound effects, music and spatial sounds.</td>
+<td>Public</td>
+<td>Audio</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-audio-native/"><code dir="auto">engine-audio-native</code></a></td>
+<td>The audio engine of the native platforms for @fdw/engine-audio, on miniaudio.</td>
+<td>Platform</td>
+<td>Audio</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-audio-web/"><code dir="auto">engine-audio-web</code></a></td>
+<td>The audio engine of a page for @fdw/engine-audio, on WebAudio.</td>
+<td>Platform</td>
+<td>Audio</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-backend/"><code dir="auto">engine-backend</code></a></td>
+<td>The abstract rendering API: the contract between the engine and its backends.</td>
+<td>Public</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-behavior/"><code dir="auto">engine-behavior</code></a></td>
+<td>Behavior graphs: events, the flow of execution, values computed on demand, variables and actions.</td>
+<td>Public</td>
+<td>Behavior</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-camera/"><code dir="auto">engine-camera</code></a></td>
+<td>Camera operators driven by the actions of @fdw/engine-input: orbit, fly, first and third person.</td>
+<td>Public</td>
+<td>Input and cameras</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-core/"><code dir="auto">engine-core</code></a></td>
+<td>The frontend of the engine: meshes, materials, the renderer and the render graph, independent of the backend.</td>
+<td>Public</td>
+<td>Rendering, Materials and shaders, Scene</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-d3d12/"><code dir="auto">engine-d3d12</code></a></td>
+<td>The Direct3D 12 backend, in Node on Windows, through a native library.</td>
+<td>Platform</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-dataviz/"><code dir="auto">engine-dataviz</code></a></td>
+<td>Values on a model and in time: color scales and their legend, the time cursor and its bar, probes and their curves, over an abstract time axis and value provider.</td>
+<td>Public</td>
+<td>Text, drawing and inspection, Procedural and simulation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-draw/"><code dir="auto">engine-draw</code></a></td>
+<td>Lines and texts drawn by the renderer, in the scene or at a constant size on the screen.</td>
+<td>Public</td>
+<td>Text, drawing and inspection</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-editing/"><code dir="auto">engine-editing</code></a></td>
+<td>The editing tools: selection, gizmos, commands, undo and redo, the events of the scene.</td>
+<td>Public</td>
+<td>Scene, Input and cameras</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-fluids/"><code dir="auto">engine-fluids</code></a></td>
+<td>Fluids simulated on the GPU in compute graphs: shallow water, smoke, liquids of particles.</td>
+<td>Public</td>
+<td>Procedural and simulation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-geometry/"><code dir="auto">engine-geometry</code></a></td>
+<td>Volumes, intersections and spatial queries, in pure TypeScript.</td>
+<td>Public</td>
+<td>Geometry, Scene</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-gltf/"><code dir="auto">engine-gltf</code></a></td>
+<td>The glTF 2.0 loader and writer: scenes, materials, animations, extensions and decoders.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-graph/"><code dir="auto">engine-graph</code></a></td>
+<td>The graph core shared by the material, animation and behavior graphs and their editors.</td>
+<td>Public</td>
+<td>Materials and shaders, Animation, Behavior, Graph editing</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-graph-editing/"><code dir="auto">engine-graph-editing</code></a></td>
+<td>The editing of the graphs on the side of the engine: sessions, previews and commands, without the DOM.</td>
+<td>Internal</td>
+<td>Graph editing</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-image/"><code dir="auto">engine-image</code></a></td>
+<td>The image encoders: PNG, JPEG, OpenEXR and Radiance HDR files from pixels or from a texture.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-input/"><code dir="auto">engine-input</code></a></td>
+<td>The keyboard, the pointer and the gamepads read the same way everywhere, and named actions bound to them.</td>
+<td>Public</td>
+<td>Input and cameras</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-input-native/"><code dir="auto">engine-input-native</code></a></td>
+<td>The input source of a native window for @fdw/engine-input, on SDL3.</td>
+<td>Platform</td>
+<td>Input and cameras</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-input-web/"><code dir="auto">engine-input-web</code></a></td>
+<td>The input source of a page for @fdw/engine-input: an element or the window, the Gamepad API.</td>
+<td>Platform</td>
+<td>Input and cameras</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-ktx2/"><code dir="auto">engine-ktx2</code></a></td>
+<td>The KTX2 codec: compressed textures with their levels, for @fdw/engine-assets.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-measure/"><code dir="auto">engine-measure</code></a></td>
+<td>Measures on the mesh of a model with their precision: distances, thicknesses, angles, radii.</td>
+<td>Public</td>
+<td>Text, drawing and inspection, Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-native/"><code dir="auto">engine-native</code></a></td>
+<td>The engine in Node: native windows, a render loop, surfaces and the native addon.</td>
+<td>Platform</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-navigation/"><code dir="auto">engine-navigation</code></a></td>
+<td>Navigation meshes, paths, agents, obstacles and avoidance.</td>
+<td>Public</td>
+<td>Navigation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-noise/"><code dir="auto">engine-noise</code></a></td>
+<td>The noises of the material graph in TypeScript, the same values on the CPU and the GPU.</td>
+<td>Public</td>
+<td>Procedural and simulation, Materials and shaders</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-obj/"><code dir="auto">engine-obj</code></a></td>
+<td>The loader of Wavefront OBJ files and their MTL materials.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-occlusion/"><code dir="auto">engine-occlusion</code></a></td>
+<td>Occlusion culling: the objects hidden behind those of the previous frames are not drawn.</td>
+<td>Public</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-ocean/"><code dir="auto">engine-ocean</code></a></td>
+<td>An animated sea on every backend, and the height of its water for the physics.</td>
+<td>Public</td>
+<td>Procedural and simulation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-physics/"><code dir="auto">engine-physics</code></a></td>
+<td>The abstract physics API and its binding to the scene: worlds, bodies, colliders, joints, queries, characters.</td>
+<td>Public</td>
+<td>Physics</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-physics-rapier/"><code dir="auto">engine-physics-rapier</code></a></td>
+<td>The physics API of @fdw/engine-physics on Rapier, compiled to WebAssembly.</td>
+<td>Public</td>
+<td>Physics</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-pivot/"><code dir="auto">engine-pivot</code></a></td>
+<td>The pivot model and the engine, both ways: pivot models loaded as models, scenes written as pivot models.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-ragdoll/"><code dir="auto">engine-ragdoll</code></a></td>
+<td>Ragdolls: bodies on the bones of a skeleton, linked by joints, their pose read back for the skinning.</td>
+<td>Public</td>
+<td>Physics, Animation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-raytracing/"><code dir="auto">engine-raytracing</code></a></td>
+<td>Ray tracing on the backends with ray queries: shadows, reflections, ambient occlusion and a path tracer.</td>
+<td>Public</td>
+<td>Ray tracing</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-resources/"><code dir="auto">engine-resources</code></a></td>
+<td>The resource system: asynchronous loading, caching and lifetimes, independent of the backend.</td>
+<td>Public</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-resources-native/"><code dir="auto">engine-resources-native</code></a></td>
+<td>The Node extensions of @fdw/engine-resources: files with notifications, image decoding, worker threads.</td>
+<td>Platform</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-resources-web/"><code dir="auto">engine-resources-web</code></a></td>
+<td>The web extensions of @fdw/engine-resources: image decoding, file sources, hot reload, workers.</td>
+<td>Platform</td>
+<td>Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-runtime/"><code dir="auto">engine-runtime</code></a></td>
+<td>The contract between a running scene and what runs it: a scene made by a factory from a backend, a surface and a context, in a page, a native window or the editor.</td>
+<td>Public</td>
+<td>Scene, Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-scene/"><code dir="auto">engine-scene</code></a></td>
+<td>The scene: entities in a hierarchy, components, systems and their scheduler, spatial queries.</td>
+<td>Public</td>
+<td>Scene</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-scene-io/"><code dir="auto">engine-scene-io</code></a></td>
+<td>Saving and loading scenes: levels, prefabs and the files of other tools.</td>
+<td>Public</td>
+<td>Scene, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-shader/"><code dir="auto">engine-shader</code></a></td>
+<td>The material graph: typed nodes compiled to WGSL, GLSL ES, SPIR-V and HLSL.</td>
+<td>Public</td>
+<td>Materials and shaders</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-skinning/"><code dir="auto">engine-skinning</code></a></td>
+<td>Skinning on the GPU: in a compute pass on WebGPU and Vulkan, in the vertex stage on WebGL2.</td>
+<td>Public</td>
+<td>Animation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-tessellation/"><code dir="auto">engine-tessellation</code></a></td>
+<td>Tessellation without hardware tessellation: patches subdivided by their size on the screen, displaced.</td>
+<td>Public</td>
+<td>Rendering, Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-text/"><code dir="auto">engine-text</code></a></td>
+<td>Fonts, text layout and the MSDF of the glyphs, without the GPU.</td>
+<td>Public</td>
+<td>Text, drawing and inspection</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-vulkan/"><code dir="auto">engine-vulkan</code></a></td>
+<td>The Vulkan 1.3 backend, in Node, through a native library.</td>
+<td>Platform</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-webgl2/"><code dir="auto">engine-webgl2</code></a></td>
+<td>The WebGL2 backend, for the browsers without WebGPU.</td>
+<td>Platform</td>
+<td>Rendering</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/engine/packages/engine-webgpu/"><code dir="auto">engine-webgpu</code></a></td>
+<td>The WebGPU backend, in the browser and on Dawn.</td>
+<td>Platform</td>
+<td>Rendering</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="editor">Editor</h2><a class="sl-anchor-link" href="#editor"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Editor”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Role</th>
+<th>Visibility</th>
+<th>Domains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/design-review/"><code dir="auto">design-review</code></a></td>
+<td>Append-only design reviews with anchored threads, companion files, and project catalog integration.</td>
+<td>Public</td>
+<td>The editor, Text, drawing and inspection</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-application-sdk/"><code dir="auto">editor-application-sdk</code></a></td>
+<td>Web and desktop application composition for the FDW editor.</td>
+<td>Public</td>
+<td>The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-electron/"><code dir="auto">editor-electron</code></a></td>
+<td>The Electron side of the desktop applications on the editor: the main process (window, page services, engine process), the preload, the engine process on Vulkan or Direct3D 12 and its Dawn fallback.</td>
+<td>Platform</td>
+<td>The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-native-viewport/"><code dir="auto">editor-native-viewport</code></a></td>
+<td>The native viewport of the desktop applications: a child window of the Electron window, and Vulkan or Direct3D 12 presenting into it.</td>
+<td>Public</td>
+<td>The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-animation-graph/"><code dir="auto">editor-plugin-animation-graph</code></a></td>
+<td>The editor of the animation graphs, a plugin of the editor.</td>
+<td>Internal</td>
+<td>Animation, Graph editing, The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-behavior-graph/"><code dir="auto">editor-plugin-behavior-graph</code></a></td>
+<td>The editor and the debugger of the behavior graphs, a plugin of the editor.</td>
+<td>Internal</td>
+<td>Behavior, Graph editing, The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-design-review/"><code dir="auto">editor-plugin-design-review</code></a></td>
+<td>Review models with anchored, versioned discussion threads.</td>
+<td>Public</td>
+<td>The editor, Text, drawing and inspection</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-isolate/"><code dir="auto">editor-plugin-isolate</code></a></td>
+<td>The plugin of the tutorial “Writing a plugin”: isolate the selection.</td>
+<td>Example</td>
+<td>The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-material-graph/"><code dir="auto">editor-plugin-material-graph</code></a></td>
+<td>The editor of the material graphs and the material editor profile, a plugin of the editor.</td>
+<td>Internal</td>
+<td>Materials and shaders, Graph editing, The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-sample/"><code dir="auto">editor-plugin-sample</code></a></td>
+<td>A sample plugin of the editor, written as a third party would.</td>
+<td>Example</td>
+<td>The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-plugin-simulation/"><code dir="auto">editor-plugin-simulation</code></a></td>
+<td>Show the results of a simulation on the viewer: the results manager, the contours and their legend, the deformation, the time, the probes and their curves, the cuts and the iso-surfaces, the glyphs and the streamlines.</td>
+<td>Public</td>
+<td>The editor, Procedural and simulation</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/editor-ui/"><code dir="auto">editor-ui</code></a></td>
+<td>The interface of the editor shared by its hosts: the shell, the profiles, the views, the plugins and their contract.</td>
+<td>Public</td>
+<td>The editor, Viewing and embedding</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/graph-editor/"><code dir="auto">graph-editor</code></a></td>
+<td>The editor of graphs in the page, in React, shared by the graph plugins of the editor.</td>
+<td>Internal</td>
+<td>Graph editing, The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/material-editor-embed/"><code dir="auto">material-editor-embed</code></a></td>
+<td>The editor of materials embedded in a page of another application (a configurator, a studio), driven by commands and events.</td>
+<td>Public</td>
+<td>Materials and shaders</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/material-library/"><code dir="auto">material-library</code></a></td>
+<td>Libraries of materials on the project catalog: entries, labels, search, thumbnails, broken links; exposed parameters and material instances.</td>
+<td>Public</td>
+<td>The editor, Materials and shaders</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/project/"><code dir="auto">project</code></a></td>
+<td>The project: a folder, its manifest, an identifier per asset in metadata beside it, and the catalog derived from them.</td>
+<td>Public</td>
+<td>Resources, assets and formats, The editor</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/editor/packages/viewer-embed/"><code dir="auto">viewer-embed</code></a></td>
+<td>The viewer embedded in a page of another application, driven by commands and events.</td>
+<td>Public</td>
+<td>Viewing and embedding</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="ecosystem">Ecosystem</h2><a class="sl-anchor-link" href="#ecosystem"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Ecosystem”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Role</th>
+<th>Visibility</th>
+<th>Domains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/capabilities/"><code dir="auto">capabilities</code></a></td>
+<td>The capability manifest shared by the plugins of the platform: readers and writers, kernel capabilities, CAD features, application plugins.</td>
+<td>Public</td>
+<td>Resources, assets and formats, Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/demo-scenes/"><code dir="auto">demo-scenes</code></a></td>
+<td>The scenes of the demos, shared by the web demo and the native demo.</td>
+<td>Example</td>
+<td>Rendering, Scene</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/geometry-kernel/"><code dir="auto">geometry-kernel</code></a></td>
+<td>The geometric kernel: an abstract interface over the B-reps of the pivot model, its capabilities in plugins.</td>
+<td>Public</td>
+<td>Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/geometry-kernel-occt/"><code dir="auto">geometry-kernel-occt</code></a></td>
+<td>OpenCascade behind the interface of the geometric kernel, the reference for the tests and comparisons.</td>
+<td>Public</td>
+<td>Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot/"><code dir="auto">pivot</code></a></td>
+<td>The pivot model of the conversion: 3D scenes and CAD models in memory, between readers and writers.</td>
+<td>Public</td>
+<td>Resources, assets and formats, Geometry</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot-brep/"><code dir="auto">pivot-brep</code></a></td>
+<td>The reader of the BREP files of OpenCascade (its text format, versions 1 to 3) of the pivot model: exact shapes, their locations.</td>
+<td>Public</td>
+<td>Geometry, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot-fcstd/"><code dir="auto">pivot-fcstd</code></a></td>
+<td>The reader of FreeCAD’s documents (.FCStd) of the pivot model: their shapes, groups, links, colors, and their construction history as a feature tree.</td>
+<td>Public</td>
+<td>Geometry, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot-results/"><code dir="auto">pivot-results</code></a></td>
+<td>The results of a simulation in the pivot model: result meshes, fields, steps and cases, loaded on demand through an evicting cache.</td>
+<td>Public</td>
+<td>Procedural and simulation, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot-step/"><code dir="auto">pivot-step</code></a></td>
+<td>The reader of STEP files (ISO 10303-21, AP203, AP214, AP242) of the pivot model: exact B-reps, assemblies, colors.</td>
+<td>Public</td>
+<td>Geometry, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/pivot-vtk/"><code dir="auto">pivot-vtk</code></a></td>
+<td>The reader of the files of VTK (legacy, .vtu, .vtp, and their series) of the pivot model: the results of a simulation, read on demand.</td>
+<td>Public</td>
+<td>Procedural and simulation, Resources, assets and formats</td>
+</tr>
+<tr>
+<td><a href="/fdw-engine-docs/ecosystem/packages/view-state/"><code dir="auto">view-state</code></a></td>
+<td>The view state: how a model is looked at — visibility, looks, annotations, views, sections.</td>
+<td>Public</td>
+<td>Viewing and embedding, Text, drawing and inspection</td>
+</tr>
+</tbody>
+</table>
+<p>The visibilities:</p>
+<ul>
+<li><strong>Public</strong>: Meant to be used by applications and plugins.</li>
+<li><strong>Platform</strong>: Specific to a backend or a platform: an application picks it for where it runs.</li>
+<li><strong>Internal</strong>: Used by the products of the workspace; its API can change without notice.</li>
+<li><strong>Example</strong>: The code of a demo or a tutorial: read it, do not depend on it.</li>
+<li><strong>Tooling</strong>: A tool of the workspace, not shipped.</li>
+</ul>
+<p><em>Generated from the repository by <code dir="auto">tools/docs/catalog.mjs</code>: the README, the <code dir="auto">description</code> and the <code dir="auto">fdw</code> field of each <code dir="auto">package.json</code>, its Nx tags.</em></p>
+</div><footer class="sl-flex astro-szjkp6mc"><div class="meta sl-flex astro-szjkp6mc"></div><div class="pagination-links print:hidden astro-i5o2xygc" dir="ltr"><a href="/fdw-engine-docs/ecosystem/architecture-guidelines/" rel="prev" class="astro-i5o2xygc"><svg aria-hidden="true" class="astro-i5o2xygc astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-i5o2xygc">Previous<br class="astro-i5o2xygc"><span class="link-title astro-i5o2xygc">Architecture guidelines</span></span></a><a href="/fdw-engine-docs/ecosystem/packages/graph/" rel="next" class="astro-i5o2xygc"><svg aria-hidden="true" class="astro-i5o2xygc astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-i5o2xygc">Next<br class="astro-i5o2xygc"><span class="link-title astro-i5o2xygc">Package graph</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

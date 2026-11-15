@@ -1,0 +1,17 @@
+{
+  "file-series-version": "1.0",
+  "files": [
+    {
+      "name": "cantilever-mode_1.vtu",
+      "time": 83.55
+    },
+    {
+      "name": "cantilever-mode_2.vtu",
+      "time": 523.61
+    },
+    {
+      "name": "cantilever-mode_3.vtu",
+      "time": 1466.12
+    }
+  ]
+}

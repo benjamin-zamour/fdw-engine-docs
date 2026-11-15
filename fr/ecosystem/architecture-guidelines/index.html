@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="fr" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5u4jbp6"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Les règles d’architecture | FdwEngine</title><link rel="canonical" href="https://benjamin-zamour.github.io/fdw-engine-docs/fr/ecosystem/architecture-guidelines/"/><link rel="alternate" hreflang="en" href="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/architecture-guidelines/"/><link rel="alternate" hreflang="fr" href="https://benjamin-zamour.github.io/fdw-engine-docs/fr/ecosystem/architecture-guidelines/"/><link rel="alternate" hreflang="x-default" href="https://benjamin-zamour.github.io/fdw-engine-docs/ecosystem/architecture-guidelines/"/><link rel="sitemap" href="/fdw-engine-docs/sitemap-index.xml"/><link rel="shortcut icon" href="/fdw-engine-docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.5"/><meta name="generator" content="Starlight v0.42.8"/><meta property="og:title" content="Les règles d’architecture"/><meta property="og:type" content="article"/><meta property="og:url" content="https://benjamin-zamour.github.io/fdw-engine-docs/fr/ecosystem/architecture-guidelines/"/><meta property="og:locale" content="fr"/><meta property="og:description" content="Où va le nouveau code : les domaines et ce que chacun possède, les règles de dépendance vérifiées par le lint, les plugins, l’éditeur comme plateforme, les labs, les produits — et comment ajouter ou déplacer un package."/><meta property="og:site_name" content="FdwEngine"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Où va le nouveau code : les domaines et ce que chacun possède, les règles de dépendance vérifiées par le lint, les plugins, l’éditeur comme plateforme, les labs, les produits — et comment ajouter ou déplacer un package."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/fdw-engine-docs/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/fdw-engine-docs/_astro/common.lkEZKOCI.css"><style>@layer starlight.components{svg:where(.astro-v6wmj37q){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em;overflow:visible}}
+</style><script type="module" src="/fdw-engine-docs/_astro/page.cNngjUgL.js"></script></head><body class="astro-g5u4jbp6"><a class="sl-skip-link astro-ritrvcva" href="#_top">Aller au contenu</a><div class="page sl-flex astro-hm3sdjlz"><header class="header astro-hm3sdjlz"><div class="header astro-srohzzyx"><div class="title-wrapper sl-flex astro-srohzzyx"><a href="/fdw-engine-docs/fr" class="site-title sl-flex astro-mhq4qcru"><span class="astro-mhq4qcru" translate="no">FdwEngine</span></a></div><div class="sl-flex print:hidden astro-srohzzyx"><site-search class="astro-srohzzyx astro-iyw4wfrt" data-translations="{&quot;placeholder&quot;:&quot;Rechercher&quot;}"><button data-open-modal disabled aria-label="Rechercher" aria-keyshortcuts="Control+K" class="astro-iyw4wfrt"><svg aria-hidden="true" class="astro-iyw4wfrt astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-iyw4wfrt" aria-hidden="true">Rechercher</span><kbd class="sl-hidden md:sl-flex astro-iyw4wfrt" style="display: none;"><kbd class="astro-iyw4wfrt">Ctrl</kbd><kbd class="astro-iyw4wfrt">K</kbd></kbd></button><dialog style="padding:0" aria-label="Rechercher" class="astro-iyw4wfrt"><div class="dialog-frame sl-flex astro-iyw4wfrt"><button data-close-modal class="sl-flex md:sl-hidden astro-iyw4wfrt">Annuler</button><div class="search-container astro-iyw4wfrt"><div id="starlight__search" class="astro-iyw4wfrt"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/fdw-engine-docs/_astro/Search.astro_astro_type_script_index_0_lang.mZd-MMIx.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-srohzzyx"><div class="sl-flex social-icons astro-srohzzyx"><a href="https://github.com/benjamin-fukdawurld/fdw-engine" rel="me" class="sl-flex astro-mc4evuja"><span class="sr-only astro-mc4evuja">GitHub</span><svg aria-hidden="true" class="astro-mc4evuja astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Selectionner le thème</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="dark" class="astro-u3b3comn">Sombre</option><option value="light" class="astro-u3b3comn">Clair</option><option value="auto" selected class="astro-u3b3comn">Auto</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Selectionner la langue</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="/fdw-engine-docs/ecosystem/architecture-guidelines/" class="astro-u3b3comn">English</option><option value="/fdw-engine-docs/fr/ecosystem/architecture-guidelines/" selected class="astro-u3b3comn">Français</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-hm3sdjlz" aria-label="principale"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-wgs6zkf7"><svg aria-hidden="true" class="open-menu astro-wgs6zkf7 astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-wgs6zkf7 astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-wgs6zkf7">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-hm3sdjlz"><div class="sidebar-content sl-flex astro-hm3sdjlz"><sl-sidebar-state-persist data-hash="0q1aexs" class="astro-fgdjt3ad"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/" class="large astro-yye532oa"><span class="astro-yye532oa">Vue d&#39;ensemble</span></a></li><li class="astro-yye532oa"><details open class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Architecture</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/repository-structure/" class="astro-yye532oa"><span class="astro-yye532oa">La structure du dépôt</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/package-architecture/" class="astro-yye532oa"><span class="astro-yye532oa">L&#39;architecture des packages</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/architecture-guidelines/" aria-current="page" class="astro-yye532oa"><span class="astro-yye532oa">Les règles d’architecture</span></a></li></ul></details></li><li class="astro-yye532oa"><details class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Packages</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/" class="astro-yye532oa"><span class="astro-yye532oa">Tous les packages</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/graph/" class="astro-yye532oa"><span class="astro-yye532oa">Le graphe des packages</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/capabilities/" class="astro-yye532oa"><span class="astro-yye532oa">capabilities</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/demo-scenes/" class="astro-yye532oa"><span class="astro-yye532oa">demo-scenes</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/geometry-kernel/" class="astro-yye532oa"><span class="astro-yye532oa">geometry-kernel</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/geometry-kernel-occt/" class="astro-yye532oa"><span class="astro-yye532oa">geometry-kernel-occt</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot/" class="astro-yye532oa"><span class="astro-yye532oa">pivot</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot-brep/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-brep</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot-fcstd/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-fcstd</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot-results/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-results</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot-step/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-step</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/pivot-vtk/" class="astro-yye532oa"><span class="astro-yye532oa">pivot-vtk</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/packages/view-state/" class="astro-yye532oa"><span class="astro-yye532oa">view-state</span></a></li></ul></details></li><li class="astro-yye532oa"><details open class="astro-yye532oa"><summary class="astro-yye532oa"><span class="group-label astro-yye532oa"><span class="large astro-yye532oa">Contribuer</span></span><svg aria-hidden="true" class="caret astro-yye532oa astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-yye532oa"><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/workspace/" class="astro-yye532oa"><span class="astro-yye532oa">Espace de travail</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/conventions/" class="astro-yye532oa"><span class="astro-yye532oa">Conventions</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/testing/" class="astro-yye532oa"><span class="astro-yye532oa">Tests</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/native-builds/" class="astro-yye532oa"><span class="astro-yye532oa">Builds natifs</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/documentation/" class="astro-yye532oa"><span class="astro-yye532oa">Documentation</span></a></li><li class="astro-yye532oa"><a href="/fdw-engine-docs/fr/ecosystem/design-process/" class="astro-yye532oa"><span class="astro-yye532oa">Processus de conception</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-adll7v4a"><div class="social-icons astro-adll7v4a"><a href="https://github.com/benjamin-fukdawurld/fdw-engine" rel="me" class="sl-flex astro-mc4evuja"><span class="sr-only astro-mc4evuja">GitHub</span><svg aria-hidden="true" class="astro-mc4evuja astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Selectionner le thème</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="dark" class="astro-u3b3comn">Sombre</option><option value="light" class="astro-u3b3comn">Clair</option><option value="auto" selected class="astro-u3b3comn">Auto</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-u3b3comn"><span class="sr-only astro-u3b3comn">Selectionner la langue</span><svg aria-hidden="true" class="icon label-icon astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-u3b3comn"><option value="/fdw-engine-docs/ecosystem/architecture-guidelines/" class="astro-u3b3comn">English</option><option value="/fdw-engine-docs/fr/ecosystem/architecture-guidelines/" selected class="astro-u3b3comn">Français</option></select><svg aria-hidden="true" class="icon caret astro-u3b3comn astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-hm3sdjlz"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-wtroqnln"><aside class="right-sidebar-container print:hidden astro-wtroqnln"><div class="right-sidebar astro-wtroqnln"><div class="lg:sl-hidden astro-ovs6fa5w"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-uklug2dz"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-uklug2dz"><details id="starlight__mobile-toc" class="astro-uklug2dz"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-uklug2dz"><span class="toggle sl-flex astro-uklug2dz">Sur cette page<svg aria-hidden="true" class="caret astro-uklug2dz astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-uklug2dz"></span></summary><div class="dropdown astro-uklug2dz"><ul class="isMobile astro-yfuraq3q" style="--depth: 0;"><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#_top" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Vue d’ensemble</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-domaines" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les domaines</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-dépendances" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les dépendances</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-plugins" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les plugins</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#léditeur-est-une-plateforme" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">L’éditeur est une plateforme</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-labs" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les labs</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-produits" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les produits</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#ajouter-un-package" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Ajouter un package</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#déplacer-un-package" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Déplacer un package</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/fdw-engine-docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-ovs6fa5w"><div class="sl-container astro-ovs6fa5w"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">Sur cette page</h2><ul class="astro-yfuraq3q" style="--depth: 0;"><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#_top" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Vue d’ensemble</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-domaines" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les domaines</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-dépendances" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les dépendances</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-plugins" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les plugins</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#léditeur-est-une-plateforme" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">L’éditeur est une plateforme</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-labs" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les labs</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#les-produits" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Les produits</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#ajouter-un-package" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Ajouter un package</span></a></li><li style="--depth: 0;" class="astro-yfuraq3q"><a href="#déplacer-un-package" style="--depth: 0;" class="astro-yfuraq3q"><span style="--depth: 0;" class="astro-yfuraq3q">Déplacer un package</span></a></li></ul></nav></starlight-toc><script type="module" src="/fdw-engine-docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-wtroqnln"><main data-pagefind-body class="astro-g5u4jbp6" lang="fr" dir="ltr"><div class="content-panel astro-jymlt5ym"><div class="sl-container astro-jymlt5ym"><h1 id="_top" class="astro-7oncsfd4">Les règles d’architecture</h1></div></div><div class="content-panel astro-jymlt5ym"><div class="sl-container astro-jymlt5ym"><div class="sl-markdown-content"><p>Le dépôt est un ensemble de <strong>plateformes</strong> (le moteur, l’éditeur), de
+<strong>fondations indépendantes</strong> (shared, conversion, geometry), de <strong>produits</strong>
+qui les assemblent (<code dir="auto">apps/</code>) et de <strong>labs</strong> qui les essaient. Cette page
+donne les règles pour placer du code. Lisez-la avant d’ajouter un package
+ou d’en déplacer un ;
+<a href="/fdw-engine-docs/fr/ecosystem/repository-structure/">La structure du dépôt</a>
+montre le résultat.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="les-domaines">Les domaines</h2><a class="sl-anchor-link" href="#les-domaines"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Les domaines »</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Domaine</th>
+<th>Possède</th>
+<th>Ne possède pas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">shared/</code></td>
+<td>Ce dont tous les domaines ont besoin et qu’aucun ne possède : les capabilities, l’état de vue</td>
+<td>Du code utilisé par deux produits : il a un propriétaire</td>
+</tr>
+<tr>
+<td><code dir="auto">conversion/</code></td>
+<td>Le modèle pivot : scènes 3D et modèles CAO en mémoire, les rapports de conversion</td>
+<td>Les formats qui demandent le noyau : <code dir="auto">geometry/</code></td>
+</tr>
+<tr>
+<td><code dir="auto">geometry/</code></td>
+<td>Le noyau géométrique, ses implémentations (OpenCascade), les lecteurs des formats exacts</td>
+<td>Les maillages pour le GPU : <code dir="auto">engine/</code></td>
+</tr>
+<tr>
+<td><code dir="auto">engine/</code></td>
+<td>Le runtime : rendu, backends, scène, ressources, modules, adaptateurs, ses extensions</td>
+<td>Toute interface utilisateur, tout DOM dans son cœur</td>
+</tr>
+<tr>
+<td><code dir="auto">editor/</code></td>
+<td>La plateforme sur laquelle les produits sont construits : interface, SDK et ses hôtes, éditeur de graphes, projet, plugins partagés</td>
+<td>Les fonctionnalités d’un produit : <code dir="auto">apps/&lt;produit&gt;/</code></td>
+</tr>
+<tr>
+<td><code dir="auto">labs/</code></td>
+<td>Les démos (du moteur, de l’éditeur sur son SDK), leurs scènes, les expérimentations et les prototypes</td>
+<td>Tout ce dont un produit a besoin pour tourner</td>
+</tr>
+<tr>
+<td><code dir="auto">apps/</code></td>
+<td>Les produits vendus aux clients, un dossier chacun, avec leurs plugins privés ; la documentation</td>
+<td>Du code dont un autre produit a besoin : il descend</td>
+</tr>
+</tbody>
+</table>
+<p>Deux questions décident du domaine d’un package :</p>
+<ol>
+<li><strong>Que connaît-il ?</strong> Un package qui dessine connaît le moteur ; un
+package avec des panneaux React connaît l’éditeur. Il va dans le
+domaine le plus bas qui contient tout ce qu’il importe.</li>
+<li><strong>Qui l’utiliserait seul ?</strong> Le pivot sert à des convertisseurs sans le
+moteur : il reste hors d’<code dir="auto">engine/</code>. Un lecteur STEP a besoin du noyau :
+il est dans <code dir="auto">geometry/</code>, pas dans <code dir="auto">conversion/</code>.</li>
+</ol>
+<p><code dir="auto">shared/</code> est l’exception, pas le choix par défaut : un package n’y va que
+s’il ne dépend de rien et qu’aucun domaine n’en est un meilleur
+propriétaire. Être utilisé par deux domaines n’est pas une raison.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="les-dépendances">Les dépendances</h2><a class="sl-anchor-link" href="#les-dépendances"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Les dépendances »</span></a></div>
+<p>Les domaines sont des couches. Une bibliothèque ne dépend que de son
+domaine et de ceux d’en dessous :</p>
+<table>
+<thead>
+<tr>
+<th>Une bibliothèque de</th>
+<th>Peut importer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">shared</code></td>
+<td><code dir="auto">shared</code></td>
+</tr>
+<tr>
+<td><code dir="auto">conversion</code></td>
+<td><code dir="auto">shared</code>, <code dir="auto">conversion</code></td>
+</tr>
+<tr>
+<td><code dir="auto">geometry</code></td>
+<td><code dir="auto">shared</code>, <code dir="auto">conversion</code>, <code dir="auto">geometry</code></td>
+</tr>
+<tr>
+<td><code dir="auto">engine</code></td>
+<td><code dir="auto">shared</code>, <code dir="auto">conversion</code>, <code dir="auto">geometry</code>, <code dir="auto">engine</code></td>
+</tr>
+<tr>
+<td><code dir="auto">editor</code></td>
+<td><code dir="auto">shared</code>, <code dir="auto">conversion</code>, <code dir="auto">geometry</code>, <code dir="auto">engine</code>, <code dir="auto">editor</code></td>
+</tr>
+<tr>
+<td><code dir="auto">labs</code>, <code dir="auto">apps</code></td>
+<td>Tout, sauf une application</td>
+</tr>
+</tbody>
+</table>
+<p>Et quel que soit le domaine :</p>
+<ul>
+<li><strong>Aucune bibliothèque n’importe les labs ni une application.</strong> L’éditeur
+ne prend pas une scène de démo pour remplir son niveau d’exemple : les
+primitives dont il a besoin sont dans <code dir="auto">engine-core</code>, le contrat d’une
+scène qui tourne dans <code dir="auto">engine-runtime</code>.</li>
+<li><strong>Le moteur ne connaît pas l’éditeur.</strong> L’édition côté moteur
+(<code dir="auto">engine-editing</code>, <code dir="auto">engine-graph-editing</code>) n’a pas de DOM ; l’éditeur
+s’appuie dessus.</li>
+<li><strong>Le moteur lit le pivot par des adaptateurs.</strong> <code dir="auto">engine-pivot</code> et
+<code dir="auto">engine-gltf</code> font des modèles pivot des ressources du moteur, et
+inversement ; le pivot porte les graphes de matériaux comme des données
+(<code dir="auto">MaterialGraphDocument</code>), que l’adaptateur vérifie avec <code dir="auto">parseGraph</code>.</li>
+<li><strong>Un test suit les mêmes règles.</strong> Un test qui a besoin d’un domaine
+plus haut vit dans un package de ce domaine : la fin du tutoriel STEP,
+écrite en glTF, est testée par <code dir="auto">engine-pivot</code>, pas par <code dir="auto">pivot-step</code>.</li>
+<li><strong>Pas de cycle</strong> : le graphe est en couches.</li>
+</ul>
+<p>Le lint les vérifie : <code dir="auto">@nx/enforce-module-boundaries</code> dans
+<code dir="auto">eslint.config.mjs</code> lit le tag <code dir="auto">scope:</code> de chaque projet et refuse un
+import qui remonte. <code dir="auto">npx nx run-many -t lint</code> le lance, la CI aussi. Quand
+le lint refuse un import, déplacez le code dans le bon domaine ou inversez
+la dépendance (une interface en bas, son implémentation en haut) : n’élargissez
+jamais la règle pour un package.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="les-plugins">Les plugins</h2><a class="sl-anchor-link" href="#les-plugins"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Les plugins »</span></a></div>
+<p>Il n’y a pas de système de plugins pour tout le dépôt : chaque plateforme a
+son contrat, et ses plugins vivent avec elle.</p>
+<table>
+<thead>
+<tr>
+<th>Où</th>
+<th>Propriétaire</th>
+<th>Pour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">engine/plugins/</code></td>
+<td>Moteur</td>
+<td>Des extensions du runtime chargées par un mécanisme de plugin</td>
+</tr>
+<tr>
+<td><code dir="auto">editor/plugins/</code></td>
+<td>Éditeur</td>
+<td>Les plugins partagés par les applications construites sur l’éditeur</td>
+</tr>
+<tr>
+<td><code dir="auto">apps/&lt;produit&gt;/plugins/</code></td>
+<td>Le produit</td>
+<td>Les plugins privés d’un produit</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Une implémentation n’est pas un plugin.</strong> <code dir="auto">engine-physics-rapier</code>
+implémente l’API d’<code dir="auto">engine-physics</code> : c’est un package d’<code dir="auto">engine/</code>, pas
+d’<code dir="auto">engine/plugins/</code>.</li>
+<li><strong>Un plugin naît là où il sert.</strong> Un plugin écrit pour un produit va dans
+<code dir="auto">apps/&lt;produit&gt;/plugins/</code>. Ne devinez pas une réutilisation future.</li>
+<li><strong>Un plugin utilisé par un second produit est promu</strong> dans les plugins de
+sa plateforme, après avoir vérifié qu’il ne dépend de rien de son
+produit :
+<code dir="auto">node tools/repo/move.mjs apps/&lt;produit&gt;/plugins/&lt;nom&gt; editor/plugins/&lt;nom&gt;</code>.</li>
+<li><strong>Un plugin partagé n’importe jamais un produit.</strong> C’est le produit qui
+le configure.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="léditeur-est-une-plateforme">L’éditeur est une plateforme</h2><a class="sl-anchor-link" href="#léditeur-est-une-plateforme"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « L’éditeur est une plateforme »</span></a></div>
+<p>L’éditeur n’est pas un produit : c’est la plateforme sur laquelle les
+produits sont construits, par son SDK (<code dir="auto">@fdw/editor-application-sdk</code>). Le
+SDK porte les hôtes : <code dir="auto">/web</code> (le moteur dans un canvas, l’hôte du
+navigateur, le stockage, les dialogues de fichiers) et <code dir="auto">/desktop</code> (l’hôte
+Electron, la connexion au processus du moteur, la session du moteur) ;
+<code dir="auto">editor-native-viewport</code> donne le viewport natif. Un produit fournit son
+profil, ses plugins et ses scènes, et choisit les hôtes avec lesquels il
+est livré.</p>
+<ul>
+<li><strong>Les éditeurs du dépôt sont des démos.</strong> <code dir="auto">labs/editor-web</code> et
+<code dir="auto">labs/editor-desktop</code> montrent la plateforme sur le SDK : tous les
+profils, les plugins, les scènes de démo. Ils ne sont pas livrés, et
+rien ne les importe.</li>
+<li><strong>Un produit se construit comme eux</strong>, dans <code dir="auto">apps/&lt;produit&gt;/</code>, sur le SDK
+et les plugins partagés, jamais sur le code d’une démo.</li>
+<li><strong>Ce qui dépend de la plateforme reste dans les hôtes.</strong> Un produit
+demande à l’hôte les fichiers, le stockage, les fenêtres ; il n’importe
+ni Electron ni les API du navigateur lui-même. Ce qui manque à un hôte
+s’ajoute au SDK.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="les-labs">Les labs</h2><a class="sl-anchor-link" href="#les-labs"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Les labs »</span></a></div>
+<p><code dir="auto">labs/</code> contient ce qui explore ou montre les capacités : les démos, les
+scènes qu’elles partagent, les expérimentations, les prototypes.</p>
+<ul>
+<li><strong>Les labs tournent dans la CI</strong> : être expérimental ne dispense pas de
+compiler ni de ses tests.</li>
+<li><strong>Aucun produit ne dépend des labs.</strong> Un morceau de démo dont un produit
+a besoin descend d’abord dans son domaine (comme les primitives sont
+descendues dans <code dir="auto">engine-core</code>).</li>
+<li>Les benchmarks de l’infrastructure de mesure restent dans <code dir="auto">tools/bench/</code>.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="les-produits">Les produits</h2><a class="sl-anchor-link" href="#les-produits"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Les produits »</span></a></div>
+<p>Chaque produit est un dossier d’<code dir="auto">apps/</code>, démarré par le SDK dans le
+navigateur (<code dir="auto">startWebApplication</code>) et sur le bureau
+(<code dir="auto">startDesktopApplication</code>, avec <code dir="auto">@fdw/editor-electron</code>) : son profil, ses
+plugins, ses modèles d’exemple, les mêmes des deux côtés
+(<code dir="auto">src/product.ts</code>). <strong>Un produit ne contient pas de fonctionnalité</strong> : ce qu’il
+montre vit dans les packages partagés (le profil dans <code dir="auto">editor-ui</code>, les
+plugins dans <code dir="auto">editor/plugins/</code>, le moteur dans <code dir="auto">engine/</code>), pour que les
+démos, la documentation et les autres produits montrent le même code.</p>
+<table>
+<thead>
+<tr>
+<th>Produit</th>
+<th>Phase</th>
+<th>Web (port)</th>
+<th>Bureau</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">viewer</code></td>
+<td>P27</td>
+<td><code dir="auto">npx nx dev viewer</code> (4310)</td>
+<td><code dir="auto">npx nx run viewer:desktop</code></td>
+</tr>
+<tr>
+<td><code dir="auto">review</code></td>
+<td>P28</td>
+<td><code dir="auto">npx nx dev review</code> (4311)</td>
+<td><code dir="auto">npx nx run review:desktop</code></td>
+</tr>
+<tr>
+<td><code dir="auto">material-editor</code></td>
+<td>P29</td>
+<td><code dir="auto">npx nx dev material-editor</code> (4312)</td>
+<td><code dir="auto">npx nx run material-editor:desktop</code></td>
+</tr>
+<tr>
+<td><code dir="auto">game-editor</code></td>
+<td>P20</td>
+<td><code dir="auto">npx nx dev game-editor</code> (4313)</td>
+<td><code dir="auto">npx nx run game-editor:desktop</code></td>
+</tr>
+<tr>
+<td><code dir="auto">simulation</code></td>
+<td>P31</td>
+<td><code dir="auto">npx nx dev simulation</code> (4314)</td>
+<td><code dir="auto">npx nx run simulation:desktop</code></td>
+</tr>
+</tbody>
+</table>
+<p><code dir="auto">npx nx build &lt;produit&gt;</code> le construit dans <code dir="auto">apps/&lt;produit&gt;/dist</code>, et
+<code dir="auto">npx nx preview &lt;produit&gt;</code> sert ce build. Le viewer et la revue ouvrent un
+modèle d’exemple au démarrage (<code dir="auto">roller.step</code>), la simulation un résultat
+d’exemple (<code dir="auto">cantilever.vtu.series</code>) ; <code dir="auto">?open=&lt;url&gt;</code> en ouvre un autre, et les autres options de lancement du SDK s’appliquent
+(<code dir="auto">?backend=webgl2</code>, <code dir="auto">?view=</code>, <code dir="auto">?docks=</code>, <code dir="auto">?embed</code>).</p>
+<p>Sur le bureau, le moteur tourne en natif (Vulkan, Direct3D 12 sur demande,
+Dawn en repli) dans un viewport placé sur la page ; le premier lancement
+installe la chaîne Electron partagée (<code dir="auto">tools/electron</code>) et construit les
+addons natifs. <code dir="auto">desktop-build</code> le construit dans
+<code dir="auto">apps/&lt;produit&gt;/desktop/out</code>, <code dir="auto">desktop-preview</code> lance ce build (le modèle
+d’exemple ne s’ouvre que depuis le serveur de dev : une page <code dir="auto">file:</code> ne
+peut pas le récupérer), <code dir="auto">typecheck-desktop</code> vérifie ses processus. Un
+plugin Nx local donne ces cibles à chaque produit qui a un
+<code dir="auto">desktop/electron.vite.config.ts</code> (<code dir="auto">tools/apps/nx-desktop.mjs</code>).</p>
+<div class="expressive-code"><link rel="stylesheet" href="/fdw-engine-docs/_astro/ec.w36nc.css"><script type="module" src="/fdw-engine-docs/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">apps/</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">viewer/</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">src/product.ts    Ce dont il est fait : son nom, son profil, ses plugins</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">src/main.tsx      startWebApplication(product)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">src/styles.css    Les styles de l’éditeur et de ses plugins</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">vite.config.mts   productConfig (tools/apps/vite.mts) : le port, les modèles d’exemple</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">desktop/</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">      </span></span><span style="--0:#d6deeb;--1:#403f53">src/main/       startElectronApplication : la fenêtre, le processus du moteur</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">      </span></span><span style="--0:#d6deeb;--1:#403f53">src/preload/    exposeDesktopBridge</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">      </span></span><span style="--0:#d6deeb;--1:#403f53">src/engine/     startEngineProcess, startDawnProcess</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">      </span></span><span style="--0:#d6deeb;--1:#403f53">src/renderer/   startDesktopApplication(product)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">      </span></span><span style="--0:#d6deeb;--1:#403f53">electron.vite.config.ts  productDesktopConfig (tools/electron/config.mts)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">cad-editor/</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">plugins/          Ses plugins privés, quand il en a</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copier dans le presse-papiers" data-copied="Copié !" data-code="apps/  viewer/    src/product.ts    Ce dont il est fait : son nom, son profil, ses plugins    src/main.tsx      startWebApplication(product)    src/styles.css    Les styles de l’éditeur et de ses plugins    vite.config.mts   productConfig (tools/apps/vite.mts) : le port, les modèles d’exemple    desktop/      src/main/       startElectronApplication : la fenêtre, le processus du moteur      src/preload/    exposeDesktopBridge      src/engine/     startEngineProcess, startDawnProcess      src/renderer/   startDesktopApplication(product)      electron.vite.config.ts  productDesktopConfig (tools/electron/config.mts)  cad-editor/    plugins/          Ses plugins privés, quand il en a"><div></div></button></div></figure></div>
+<ul>
+<li><strong>Un nouveau produit</strong> copie l’un d’eux : un <code dir="auto">package.json</code> (privé,
+<code dir="auto">@fdw-engine/&lt;produit&gt;</code>), un <code dir="auto">project.json</code> (<code dir="auto">scope:apps</code>, <code dir="auto">type:app</code>),
+<code dir="auto">index.html</code> et <code dir="auto">popout.html</code>, son <code dir="auto">src/</code> et son <code dir="auto">vite.config.mts</code> ;
+puis <code dir="auto">npm install</code> et <code dir="auto">npx nx sync</code>. Son nom Nx ne doit pas être celui
+d’un package (<code dir="auto">review</code>, pas <code dir="auto">design-review</code>).</li>
+<li><strong>Une fonctionnalité dont il a besoin</strong> va d’abord dans son domaine (un
+panneau dans un plugin d’<code dir="auto">editor/plugins/</code>, une commande dans
+<code dir="auto">editor-ui</code>) ; le produit ne fait que l’assembler. Ses plugins privés,
+dans <code dir="auto">apps/&lt;produit&gt;/plugins/</code>, sont l’exception : ce qu’aucun autre
+produit ne montrera.</li>
+<li><strong>Un produit n’importe jamais un autre produit, ni les labs</strong> : ce que
+deux produits partagent descend dans <code dir="auto">editor/</code> ou dans le domaine qui le
+possède.</li>
+<li><strong>Sur le bureau</strong>, ses points d’entrée tiennent en une ligne chacun : ce
+qui change d’un produit à l’autre est dans <code dir="auto">src/product.ts</code>, le reste dans
+<code dir="auto">@fdw/editor-electron</code>. Lancé depuis un terminal des extensions de VS
+Code, retirez <code dir="auto">ELECTRON_RUN_AS_NODE</code> : Electron démarrerait comme Node.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="ajouter-un-package">Ajouter un package</h2><a class="sl-anchor-link" href="#ajouter-un-package"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Ajouter un package »</span></a></div>
+<ol>
+<li><strong>Choisissez son domaine</strong> avec les deux questions ci-dessus, et son
+dossier : <code dir="auto">&lt;domaine&gt;/&lt;nom&gt;</code>. Son nom dit son domaine : <code dir="auto">engine-…</code> dans
+le moteur, <code dir="auto">editor-plugin-…</code> pour un plugin de l’éditeur.</li>
+<li><strong>Copiez un package du même domaine</strong>, comme <code dir="auto">engine/engine-input</code> :
+<code dir="auto">package.json</code> (nom <code dir="auto">@fdw/&lt;nom&gt;</code>, <code dir="auto">exports</code> vers <code dir="auto">./src/index.ts</code>),
+<code dir="auto">project.json</code>, les tsconfig, <code dir="auto">vitest.config.mts</code>, <code dir="auto">README.md</code>.</li>
+<li><strong>Taguez-le</strong> dans <code dir="auto">project.json</code> : <code dir="auto">scope:&lt;domaine&gt;</code>, <code dir="auto">runtime:</code>,
+<code dir="auto">type:lib</code> (ou <code dir="auto">type:plugin</code>).</li>
+<li><strong>Déclarez-le</strong> : son chemin dans <code dir="auto">tsconfig.base.json</code>, sa
+<code dir="auto">description</code> et son champ <code dir="auto">fdw</code> dans <code dir="auto">package.json</code>
+(<a href="/fdw-engine-docs/fr/ecosystem/package-architecture/">L’architecture des packages</a>).</li>
+<li><strong>Installez et vérifiez</strong> :</li>
+</ol>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Fenêtre de terminal</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">sync</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run-many</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">typecheck</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">lint</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">test-unit</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-p</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">&lt;nom&gt;</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">docs:check</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copier dans le presse-papiers" data-copied="Copié !" data-code="npm installnpx nx syncnpx nx run-many -t typecheck lint test-unit -p <nom>npm run docs:check"><div></div></button></div></figure></div>
+<p>Un nouveau dossier qui contient des projets (<code dir="auto">engine/plugins/</code>, un produit
+d’<code dir="auto">apps/</code>) s’ajoute aux workspaces du <code dir="auto">package.json</code> de la racine et à
+<code dir="auto">projectParents</code> dans <code dir="auto">tools/repo/layout.mjs</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="déplacer-un-package">Déplacer un package</h2><a class="sl-anchor-link" href="#déplacer-un-package"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section intitulée « Déplacer un package »</span></a></div>
+<p><code dir="auto">tools/repo/move.mjs</code> déplace des dossiers et réécrit les chemins qui
+pointent dedans : les chemins relatifs des configurations et des pages, et
+les chemins depuis la racine (<code dir="auto">engine/engine-core</code>) dans les workflows, les
+scripts et la documentation. Les noms npm et les noms des projets Nx ne
+changent pas, donc aucun import non plus.</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Fenêtre de terminal</span></figcaption><pre data-language="sh"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">node</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">tools/repo/move.mjs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">engine/engine-foo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">engine/plugins/engine-foo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--dry-run</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">node</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">tools/repo/move.mjs</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">engine/engine-foo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">engine/plugins/engine-foo</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">install</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">sync</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">nx</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run-many</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-t</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">typecheck</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">lint</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">test-unit</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copier dans le presse-papiers" data-copied="Copié !" data-code="node tools/repo/move.mjs engine/engine-foo engine/plugins/engine-foo --dry-runnode tools/repo/move.mjs engine/engine-foo engine/plugins/engine-foonpm installnpx nx syncnpx nx run-many -t typecheck lint test-unit"><div></div></button></div></figure></div>
+<p>Changez ensuite son tag <code dir="auto">scope:</code> s’il change de domaine, et relisez le
+diff : l’outil ne réécrit un chemin relatif que s’il pointe vers quelque
+chose qui existe.</p>
+</div><footer class="sl-flex astro-szjkp6mc"><div class="meta sl-flex astro-szjkp6mc"></div><div class="pagination-links print:hidden astro-i5o2xygc" dir="ltr"><a href="/fdw-engine-docs/fr/ecosystem/package-architecture/" rel="prev" class="astro-i5o2xygc"><svg aria-hidden="true" class="astro-i5o2xygc astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-i5o2xygc">Précédent<br class="astro-i5o2xygc"><span class="link-title astro-i5o2xygc">L&#39;architecture des packages</span></span></a><a href="/fdw-engine-docs/fr/ecosystem/packages/" rel="next" class="astro-i5o2xygc"><svg aria-hidden="true" class="astro-i5o2xygc astro-v6wmj37q" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-i5o2xygc">Suivant<br class="astro-i5o2xygc"><span class="link-title astro-i5o2xygc">Tous les packages</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
