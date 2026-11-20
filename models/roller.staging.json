@@ -1,0 +1,45 @@
+{
+  "format": "fdw.product-staging",
+  "version": 1,
+  "id": "roller-catalogue",
+  "name": "Roller catalogue",
+  "model": {
+    "name": "roller.step"
+  },
+  "cameras": [
+    {
+      "id": "hero",
+      "name": "Hero",
+      "position": [0.2491, 0.1667, 0.2065],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.47108996144172666,
+      "output": {
+        "width": 3840,
+        "height": 2160
+      }
+    },
+    {
+      "id": "front",
+      "name": "Front",
+      "position": [0.08, 0.0293, 0.3623],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.47108996144172666,
+      "output": {
+        "width": 2048,
+        "height": 2048
+      }
+    },
+    {
+      "id": "top",
+      "name": "Top",
+      "position": [0.08, 0.4965, -0.0268],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.28049921927321025,
+      "output": {
+        "width": 3508,
+        "height": 2480
+      }
+    }
+  ],
+  "activeCamera": "hero"
+}

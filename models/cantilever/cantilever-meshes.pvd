@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1">
+  <Collection>
+    <DataSet timestep="0" part="fine" file="cantilever-case_1.vtu"/>
+    <DataSet timestep="0" part="coarse" file="cantilever-coarse.vtu"/>
+  </Collection>
+</VTKFile>

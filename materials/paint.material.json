@@ -1,0 +1,80 @@
+{
+  "format": "fdw-material-graph",
+  "version": 1,
+  "name": "satin paint",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "input.uniform",
+      "params": {
+        "name": "color",
+        "type": {
+          "kind": "vector",
+          "size": 3,
+          "scalar": "f32"
+        },
+        "slot": "material",
+        "default": [0.1, 0.105, 0.11]
+      },
+      "label": "color"
+    },
+    {
+      "id": "n2",
+      "type": "input.uniform",
+      "params": {
+        "name": "roughness",
+        "type": {
+          "kind": "scalar",
+          "scalar": "f32"
+        },
+        "slot": "material",
+        "default": 0.45
+      },
+      "label": "roughness"
+    },
+    {
+      "id": "n3",
+      "type": "output.surface",
+      "params": {
+        "shadingModel": "pbr"
+      },
+      "defaults": {
+        "metallic": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": {
+        "node": "n1",
+        "port": "value"
+      },
+      "to": {
+        "node": "n3",
+        "port": "baseColor"
+      }
+    },
+    {
+      "from": {
+        "node": "n2",
+        "port": "value"
+      },
+      "to": {
+        "node": "n3",
+        "port": "roughness"
+      }
+    }
+  ],
+  "exposed": [
+    {
+      "name": "color",
+      "label": "Color"
+    },
+    {
+      "name": "roughness",
+      "label": "Roughness",
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

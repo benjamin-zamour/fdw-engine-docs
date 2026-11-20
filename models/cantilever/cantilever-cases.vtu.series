@@ -1,0 +1,17 @@
+{
+  "file-series-version": "1.0",
+  "files": [
+    {
+      "name": "cantilever-case_1.vtu",
+      "time": 1
+    },
+    {
+      "name": "cantilever-case_2.vtu",
+      "time": 2
+    },
+    {
+      "name": "cantilever-case_3.vtu",
+      "time": 3
+    }
+  ]
+}

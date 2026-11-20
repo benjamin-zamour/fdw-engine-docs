@@ -1,0 +1,152 @@
+{
+  "format": "fdw.product-staging",
+  "version": 3,
+  "id": "roller-dressed",
+  "name": "Roller dressed",
+  "model": {
+    "name": "roller.step"
+  },
+  "cameras": [
+    {
+      "id": "hero",
+      "name": "Hero",
+      "position": [0.2491, 0.1667, 0.2065],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.47108996144172666,
+      "output": {
+        "width": 3840,
+        "height": 2160
+      }
+    },
+    {
+      "id": "front",
+      "name": "Front",
+      "position": [0.08, 0.0293, 0.3623],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.47108996144172666,
+      "output": {
+        "width": 2048,
+        "height": 2048
+      }
+    },
+    {
+      "id": "top",
+      "name": "Top",
+      "position": [0.08, 0.4965, -0.0268],
+      "target": [0.08, 0.0293, -0.035],
+      "fovY": 0.28049921927321025,
+      "output": {
+        "width": 3508,
+        "height": 2480
+      }
+    }
+  ],
+  "activeCamera": "hero",
+  "lighting": {
+    "lights": [
+      {
+        "id": "key",
+        "name": "Key",
+        "kind": "directional",
+        "azimuth": -30,
+        "elevation": 50,
+        "distance": 4,
+        "intensity": 1.5,
+        "color": [1, 1, 1],
+        "temperature": 6500,
+        "angle": 30,
+        "castShadow": true,
+        "enabled": true
+      },
+      {
+        "id": "fill",
+        "name": "Fill",
+        "kind": "directional",
+        "azimuth": 60,
+        "elevation": 20,
+        "distance": 4,
+        "intensity": 0.4,
+        "color": [1, 1, 1],
+        "temperature": 7500,
+        "angle": 30,
+        "castShadow": false,
+        "enabled": true
+      }
+    ],
+    "environment": {
+      "kind": "panorama",
+      "file": "../environments/studio.hdr",
+      "intensity": 0.8
+    },
+    "background": {
+      "kind": "color",
+      "color": [1, 1, 1]
+    },
+    "ground": {
+      "kind": "shadow-catcher",
+      "opacity": 0.45
+    }
+  },
+  "materials": [
+    {
+      "id": "body",
+      "target": {
+        "path": [],
+        "key": "roller.step|#5",
+        "name": "roller unit"
+      },
+      "material": {
+        "path": "paints/paint.material.json",
+        "name": "paint"
+      }
+    },
+    {
+      "id": "drum",
+      "target": {
+        "path": [],
+        "key": "roller.step|#5|#2145",
+        "name": "roller"
+      },
+      "material": {
+        "path": "metals/copper.material.json",
+        "name": "copper"
+      }
+    },
+    {
+      "id": "ring-1",
+      "target": {
+        "path": [],
+        "key": "roller.step|#5|#2145|#1604|#2134",
+        "name": "ring"
+      },
+      "material": {
+        "path": "metals/dark-copper.material-instance.json",
+        "name": "dark-copper"
+      }
+    },
+    {
+      "id": "ring-2",
+      "target": {
+        "path": [],
+        "key": "roller.step|#5|#2145|#1604|#2140",
+        "name": "ring"
+      },
+      "material": {
+        "path": "metals/dark-copper.material-instance.json",
+        "name": "dark-copper"
+      }
+    },
+    {
+      "id": "block-left",
+      "target": {
+        "path": [],
+        "key": "roller.step|#5|#1353",
+        "name": "block left"
+      },
+      "material": {
+        "path": "paints/blue-paint.material-instance.json",
+        "name": "blue-paint"
+      }
+    }
+  ]
+}
